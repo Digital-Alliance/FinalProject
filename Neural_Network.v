@@ -1,8 +1,8 @@
 
-/////////////////////////////////////////////////////// 
-//  Hardware Implementation of the Nueral Network   //
-//                 Digital Aliance                   //
-//    James Ginley, Kaila Balacio, Lillian Deas     //
+///////////////////////////////////////////////////////
+//   Hardware Implementation of the Nueral Network  //
+//                 Digital Aliance                  //
+//    James Ginley, Kaila Balacio, Lillian Deas    //
 /////////////////////////////////////////////////////
 
 
@@ -193,15 +193,4 @@ module FP_Mul(N1,N2,Result,clk, done, reset);
 		end
 	end
 endmodule
-
-
-
-
-
-
-
-
-
-
-
 
