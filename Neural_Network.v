@@ -1,3 +1,4 @@
+
 /////////////////////////////////////////////////////// 
 //  Hardware Implementation of the Nueral Network   //
 //                 Digital Aliance                   //
@@ -89,3 +90,60 @@ module 8x8_Mult_Piped (a, b, clk, reset, y);
       assign y = yR[7];
       
       endmodule
+
+// Floating Point Adder from 180B
+module FP_Add(N1,N2,Result,clk, done, reset);
+
+  input [31:0] N1,N2;
+	input clk, reset;
+	output reg [31:0] Result;
+	output reg done;
+	reg state =0;
+	integer i=0;
+	wire [31:0] answer;
+	reg [31:0] prevresult = 0;
+	
+adder adds(N1,N2,answer,clk);
+
+	always @(posedge clk, negedge reset)
+	begin
+	
+	if (reset ==0)
+	begin
+	i=0;
+	done = 0;
+	state = 1'b0;
+	end
+	
+	else
+		case(state)
+		1'b0:	begin
+				done = 0;
+				Result = answer;
+				i=i+1;
+				if (i ==6)
+					state = 1'b1;
+				end
+				
+		1'b1: begin
+				done = 1;
+				if(reset ==0)
+					begin
+					done = 0;
+					state = 1'b0;
+					end
+				end
+		endcase
+end
+
+endmodule
+
+
+
+
+
+
+
+
+
+
