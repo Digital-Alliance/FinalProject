@@ -139,6 +139,64 @@ end
 endmodule
 
 
+//FP Multiplier with no rounding from 180B 
+module FP_Mul(N1,N2,Result,clk, done, reset);
+	input [31:0] N1,N2;
+	input clk, reset;
+	output reg[31:0] Result;
+	output reg done;
+	wire [8:0] E;
+	wire [47:0] M;
+	wire [47:0] realM1, realM2;
+	wire [8:0] realE;
+	reg firstone, secondone;
+	reg state =0;
+	
+	//assign Result[31] = N1[31]^N2[31];
+	assign E = N1[30:23] + N2[30:23] -127;
+	assign M = {1'b1,N1[22:0]} * {1'b1,N2[22:0]};
+	assign realM2 = M << 2;
+	assign realM1 = M << 1;
+	assign realE = E+1;
+	
+	always @ (M[47], M[46], reset, N1, N2)
+	begin
+	if (reset == 0)
+		done = 0;
+	else
+		begin
+			if(M[47] == 1)
+				begin
+				//realM1 = M << 1;
+				//realE = E+1;
+				Result[31] = N1[31]^N2[31];
+				Result[30:23] = realE[7:0];
+				Result[22:0] = realM1[47:25];
+				if(realM1[24] && realM1[23])
+				begin
+				Result = Result +1;
+				end
+				done =1;
+				end
+			else if (M[46] == 1)
+				begin
+				//realM2 = M << 2;
+				Result[31] = N1[31]^N2[31];
+				Result[30:23] = E[7:0];
+				Result[22:0] = realM2[47:25];
+				if(realM2[24] && realM2[23])
+				begin
+				Result = Result +1;
+				end
+				done =1;
+				end
+		end
+	end
+endmodule
+
+
+
+
 
 
 
