@@ -138,7 +138,7 @@ end
 
 endmodule
 
-/*
+/* MAY NOT NEED
 //FP Multiplier with no rounding from 180B 
 module FP_Mul(N1,N2,Result,clk, done, reset);
 	input [31:0] N1,N2;
